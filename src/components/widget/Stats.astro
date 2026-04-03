@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+
+// 1. 取得所有文章
+const allPosts = await getCollection("posts", ({ data }) => {
+	return data.draft !== true; // 只計算非草稿的文章
+});
+
+// 2. 計算總字數 (支援中英文)
+let totalWords = 0;
+allPosts.forEach((post) => {
+	const content = post.body;
+	// 匹配中文字符或英文單字
+	const wordCount =
+		content.split(/\s+/).length +
+		(content.match(/[\u4e00-\u9fa5]/g)?.length || 0);
+	totalWords += wordCount;
+});
+
+// 3. 計算運行時間
+const startDate = new Date("2026-04-03"); // 🌟 這裡改成你部落格開始運作的日期
+const now = new Date();
+const diffTime = Math.abs(now.getTime() - startDate.getTime());
+const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+const years = Math.floor(diffDays / 365);
+const months = Math.floor((diffDays % 365) / 30);
+const days = diffDays % 30;
+
+const stats = [
+	{ label: "文章總數", value: `${allPosts.length} 篇` },
+	{ label: "總字數", value: `${(totalWords / 1000).toFixed(1)} 萬字` },
+	{ label: "運行時長", value: `${years} 年 ${months} 個月 ${days} 天` },
+];
+---
+
+<div class="card-base p-4 mt-4">
+    <div class="font-bold mb-2 text-neutral-700 dark:text-neutral-300">網站統計</div>
+    <div class="grid grid-cols-1 gap-2">
+        {stats.map(stat => (
+            <div class="flex justify-between text-sm">
+                <span class="text-neutral-500">{stat.label}</span>
+                <span class="text-neutral-700 dark:text-neutral-300 font-mono">{stat.value}</span>
+            </div>
+        ))}
+    </div>
+</div>

@@ -16,13 +16,13 @@ export const siteConfig: SiteConfig = {
 		fixed: false, // Hide the theme color picker for visitors
 	},
 	banner: {
-		enable: false,
-		src: "assets/images/demo-banner.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-		position: "center", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
+		enable: true, // 🌟 1. 把這裡的 false 改成 true！這就是開啟橫幅的關鍵
+		src: "assets/images/cyberpunk_banner.jpg", // 🌟 2. 換成你剛剛丟進去的圖片檔名
+		position: "center", // 如果圖片被上下裁切，可以改成 "top" 或 "bottom" 來調整對齊位置
 		credit: {
-			enable: false, // Display the credit text of the banner image
-			text: "", // Credit text to be displayed
-			url: "", // (Optional) URL link to the original artwork or artist's page
+			enable: false, // 如果你想標註圖片來源或攝影師，可以設為 true
+			text: "",
+			url: "",
 		},
 	},
 	toc: {
